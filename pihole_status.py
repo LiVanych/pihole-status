@@ -11,7 +11,7 @@
 # - Blocked percentage
 # - Total blocked count / Total number of queries
 # - CPU utilization
-# - CPU temp
+# - CPU temperature
 # - Memory in use / Total memory
 # - Disk space used / Total disk space
 #
@@ -75,11 +75,6 @@ border = 5
 # Move left to right keeping track of the current x position for drawing shapes.
 x = 0
 
-# Load Truetype font from https://www.dafont.com/bitmap.php
-# VCR OSD Mono by Riciery Leal
-#font = ImageFont.truetype('VCR_OSD_MONO_1.001.ttf',15)
-#font2 = ImageFont.truetype('VCR_OSD_MONO_1.001.ttf',40)
-
 font = ImageFont.load_default()
 
 def clear_screen():
@@ -119,7 +114,7 @@ while True:
         r = requests.get("http://localhost/admin/api.php?summary")
 
         # Display Pi-hole stats
-        draw.text((x, top), "%s%%" % r.json()["ads_percentage_today"],  font=font, fill=255)
+        draw.text((x, top), "Block %: %s%%" % r.json()["ads_percentage_today"],  font=font, fill=255)
         draw.text((x, top+32), "Ads blocked: %s" % r.json()["ads_blocked_today"], font=font, fill=255)
         draw.text((x, top+48), "DNS queries: %s" % r.json()["dns_queries_today"], font=font, fill=255)
       
@@ -159,9 +154,9 @@ while True:
       # Display system stats
       draw.text((x, top), "IP: " + IP,  font=font, fill=255)    
       draw.text((x, top+16), "CPU:  " + CPU, font=font, fill=255)
-      draw.text((x, top+32), "Mem:  " + MemUsage, font=font, fill=255)
+      draw.text((x, top+28), "Mem:  " + MemUsage, font=font, fill=255)
       draw.text((x, top+40), "Disk: " + Disk,font=font, fill=255)
-      draw.text((x, top+48), "Temp: " + Temp + "F",font=font, fill=255)
+      draw.text((x, top+52), "Temp: " + Temp + "F",font=font, fill=255)
 
       mode=0
     
