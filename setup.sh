@@ -27,4 +27,5 @@ sudo pip3 install adafruit-circuitpython-ssd1306
 # Note: On Debian-based systems the files in cron.d should not have an extension.
 sudo bash -c 'echo "@reboot pi python3 /home/pi/pihole-status/pihole_status.py &" > /etc/cron.d/pihole_status'
 
-echo "Pihole-status installation complete. Ensure I2C is enabled and reboot to activate."
+echo "\nPihole-status installation complete."
+echo '\nEnsure I2C is enabled via "sudo raspi-config ==> Interfacing Options ==> I2C", then reboot to activate OLED screen.'
