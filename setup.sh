@@ -14,4 +14,5 @@ sudo apt install -y python3-setuptools
 sudo pip3 install adafruit-circuitpython-ssd1306
 
 # Add a crontab entry to start the OLED updating script on boot:
-sudo bash -c 'echo "@reboot python3 /home/pi/pihole-status/pihole_status.py &" > /etc/cron.d/pihole_status.cron'
+# Note: On Debian-based systems the files in cron.d should not have an extension.
+sudo bash -c 'echo "@reboot pi python3 /home/pi/pihole-status/pihole_status.py &" > /etc/cron.d/pihole_status'
