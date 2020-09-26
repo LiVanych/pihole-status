@@ -1,5 +1,15 @@
 #!/bin/sh
 
+# -e means to exit if any command in this script has a non-zero exit status.
+# This should help prevent broken installs.
+set -e
+
+cd ~
+mkdir pihole-status
+cd pihole-status
+
+wget -O pihole_status.py https://raw.githubusercontent.com/bkolin/pihole-status/master/pihole_status.py
+
 # Install dependencies:
 sudo apt install -y python3-dev
 sudo apt install -y python3-pip
@@ -16,3 +26,5 @@ sudo pip3 install adafruit-circuitpython-ssd1306
 # Add a crontab entry to start the OLED updating script on boot:
 # Note: On Debian-based systems the files in cron.d should not have an extension.
 sudo bash -c 'echo "@reboot pi python3 /home/pi/pihole-status/pihole_status.py &" > /etc/cron.d/pihole_status'
+
+echo "Pihole-status installation complete. Ensure I2C is enabled and reboot to activate."
