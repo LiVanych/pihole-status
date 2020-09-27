@@ -7,19 +7,22 @@
 # This script shows various status data about the connected pi-hole on
 # an attached 13-6-based OLED screen:
 #
+# System information:
 # - IP address
-# - Blocked percentage
-# - Total blocked count / Total number of queries
 # - CPU utilization
-# - CPU temperature
 # - Memory in use / Total memory
 # - Disk space used / Total disk space
+# - CPU temperature
+# - System uptime
+#
+# Pi-hole information:
+# - Blocked percentage
+# - Blocked count
+# - Total number of queries
+# - Domains blocked
 #
 # Based on the Adafruit 1306 example at:
 #   https://learn.adafruit.com/adafruit-pioled-128x32-mini-oled-for-raspberry-pi/usage 
-#
-# Pi-hole stats extraction based on Matt Hawkins' implementation at: 
-#   https://bitbucket.org/MattHawkinsUK/rpispy-misc/src/master/pihole/
 #
 
 
@@ -43,36 +46,36 @@ import busio
 import adafruit_ssd1306
 
 # Screen refresh frequency:
-refresh = 5 #30
+refresh = 100
 
 # Create the I2C interface.
 i2c = busio.I2C(SCL, SDA)
  
-# Create the SSD1306 OLED class.
-# The first two parameters are the pixel width and pixel height.  Change these
-# to the right size for your display!
+# Create the SSD1306 OLED class
+# The first two parameters are the pixel width and pixel height. Note that this
+# script assumes 64 pixels of height and will need to be adjusted for other
+# dimensions.
 disp = adafruit_ssd1306.SSD1306_I2C(128, 64, i2c)
  
-# Clear display.
+# Clear display
 disp.fill(0)
 disp.show()
 
-# Create blank image for drawing.
+# Create blank image for drawing
 # Make sure to create image with mode '1' for 1-bit color.
 width = disp.width
 height = disp.height
 image = Image.new('1', (width, height))
 
-# Get drawing object to draw on image.
+# Get drawing object to draw on image
 draw = ImageDraw.Draw(image)
 
-# Draw some shapes.
-# First define some constants to allow easy resizing of shapes.
+# Some constants to help with layout
 padding = 0 
 top = padding
 bottom = height-padding
 border = 5
-# Move left to right keeping track of the current x position for drawing shapes.
+# Move left to right keeping track of the current x position for drawing shapes
 x = 0
 
 font = ImageFont.load_default()
@@ -90,14 +93,14 @@ def highlight_text(text, font):
   (font_width, font_height) = font.getsize(text)
   draw.text((width/2 - font_width/2, height/2 - font_height/2) , text,  font=font, fill=255)
 
-# Display startup text.
+# Display startup text
 title = "Pi-hole Status"
 highlight_text(title, font)
 disp.image(image)
 disp.show()
 
 # Default mode to showing system info first
-mode = 1
+mode = 0
 counter = 1
 
 while True:
@@ -113,13 +116,20 @@ while True:
       try:
         r = requests.get("http://localhost/admin/api.php?summary")
 
+        # Show IP in both modes
+        cmd = "hostname -I | cut -d\' \' -f1"
+        IP = subprocess.check_output(cmd, shell = True).decode('UTF-8')
+
+        draw.text((x, top), "IP: " + IP,  font=font, fill=255)
+
         # Display Pi-hole stats
-        draw.text((x, top), "Block %: %s%%" % r.json()["ads_percentage_today"],  font=font, fill=255)
+        draw.text((x, top+16), "Block %%: %s%%" % r.json()["ads_percentage_today"],  font=font, fill=255)
         draw.text((x, top+32), "Ads blocked: %s" % r.json()["ads_blocked_today"], font=font, fill=255)
-        draw.text((x, top+48), "DNS queries: %s" % r.json()["dns_queries_today"], font=font, fill=255)
-      
+        draw.text((x, top+42), "DNS queries: %s" % r.json()["dns_queries_today"], font=font, fill=255)
+        draw.text((x, top+52), "Domains: %s" % r.json()["domains_being_blocked"], font=font, fill=255)
+
       except requests.exceptions.RequestException as e:  # This is the correct syntax
-        #raise SystemExit(e)
+        # We choose to keep running to see if the pi-hole web interface comes up rather than raise SystemExit(e)
         highlight_text("Pi-hole is DOWN!!!", font)
         
       # Toggle
@@ -151,16 +161,20 @@ while True:
       Temp_float = round((float(Temp)) * 9/5 + 32, 1) 
       Temp = str(Temp_float)
 
+      cmd = "uptime -p | cut -d\' \' -f2,3,4,5,6,7,8,9"
+      Uptime = subprocess.check_output(cmd, shell = True).decode('UTF-8').strip()
+
       # Display system stats
       draw.text((x, top), "IP: " + IP,  font=font, fill=255)    
-      draw.text((x, top+16), "CPU:  " + CPU, font=font, fill=255)
-      draw.text((x, top+28), "Mem:  " + MemUsage, font=font, fill=255)
-      draw.text((x, top+40), "Disk: " + Disk,font=font, fill=255)
-      draw.text((x, top+52), "Temp: " + Temp + "F",font=font, fill=255)
+      draw.text((x, top+12), "CPU:  " + CPU, font=font, fill=255)
+      draw.text((x, top+22), "Mem:  " + MemUsage, font=font, fill=255)
+      draw.text((x, top+32), "Disk: " + Disk,font=font, fill=255)
+      draw.text((x, top+42), "Temp: " + Temp + "F",font=font, fill=255)
+      draw.text((x, top+52), "Up: " + Uptime,font=font, fill=255)
 
       mode=0
     
-    # Display image.
+    # Display image
     disp.image(image)
     disp.show()
 
