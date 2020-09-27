@@ -116,17 +116,25 @@ while True:
       try:
         r = requests.get("http://localhost/admin/api.php?summary")
 
-        # Show IP in both modes
-        cmd = "hostname -I | cut -d\' \' -f1"
-        IP = subprocess.check_output(cmd, shell = True).decode('UTF-8')
+        # We will retrieve both the current version and the latest version
+        # to see if an upidate is available.
+        cmd = "pihole -v | head -1 | cut -d\' \' -f6"
+        Version = subprocess.check_output(cmd, shell = True).decode('UTF-8')
 
-        draw.text((x, top), "IP: " + IP,  font=font, fill=255)
+        cmd = "pihole -v | head -1 | cut -d\' \' -f8 | cut -d\')\' -f1"
+        LatestVersion = subprocess.check_output(cmd, shell = True).decode('UTF-8')
+
+        UpdateAvailable = "No"
+        if Version != LatestVersion:
+          UpdateAvailable = "Yes"
 
         # Display Pi-hole stats
-        draw.text((x, top+16), "Block %%: %s%%" % r.json()["ads_percentage_today"],  font=font, fill=255)
-        draw.text((x, top+32), "Ads blocked: %s" % r.json()["ads_blocked_today"], font=font, fill=255)
-        draw.text((x, top+42), "DNS queries: %s" % r.json()["dns_queries_today"], font=font, fill=255)
-        draw.text((x, top+52), "Domains: %s" % r.json()["domains_being_blocked"], font=font, fill=255)
+        draw.text((x, top), "Pi-hole: " + Version,  font=font, fill=255)
+        draw.text((x, top+12), "Block %%: %s%%" % r.json()["ads_percentage_today"],  font=font, fill=255)
+        draw.text((x, top+22), "Ads blocked: %s" % r.json()["ads_blocked_today"], font=font, fill=255)
+        draw.text((x, top+32), "DNS queries: %s" % r.json()["dns_queries_today"], font=font, fill=255)
+        draw.text((x, top+42), "Domains: %s" % r.json()["domains_being_blocked"], font=font, fill=255)
+        draw.text((x, top+52), "Update available: " + UpdateAvailable, font=font, fill=255)
 
       except requests.exceptions.RequestException as e:  # This is the correct syntax
         # We choose to keep running to see if the pi-hole web interface comes up rather than raise SystemExit(e)
