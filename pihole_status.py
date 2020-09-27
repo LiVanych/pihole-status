@@ -46,7 +46,7 @@ import busio
 import adafruit_ssd1306
 
 # Screen refresh frequency:
-refresh = 100
+refresh = 10
 
 # Create the I2C interface.
 i2c = busio.I2C(SCL, SDA)
