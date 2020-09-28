@@ -122,14 +122,24 @@ while True:
 
         # We will retrieve both the current version and the latest version
         # to see if an upidate is available.
-        cmd = "pihole -v | head -1 | cut -d\' \' -f6"
+
+        # Note: 'pihole' -v -p -[c|l] to get the current and latest version of the pihole core
+        # unfortunately has a number of different outputs depending on what information is available
+        # locally. Sometimes the output starts with "Current" and sometimes it does not. We will
+        # reverse the words so we can grab the version from the end of the sentence easily at
+        # the beginning, and then chop off the period or ) if it exists.
+        # Example output:
+        #   Current Pi-hole version is v5.1.2.
+        #   Pi-hole version is v5.1.2 (Latest: v5.1.2)
+
+        cmd = "pihole -v -p -c | awk \'{for (i=NF;i>0;i--){printf $i\" \"}}\' | cut -d\' \' -f1 | sed \'s/\.$//\' | sed \'s/)$//\'"
         Version = subprocess.check_output(cmd, shell = True).decode('UTF-8')
 
-        cmd = "pihole -v | head -1 | cut -d\' \' -f8 | cut -d\')\' -f1"
+        cmd = "pihole -v -p -l | awk \'{for (i=NF;i>0;i--){printf $i\" \"}}\' | cut -d\' \' -f1 | sed \'s/\.$//\' | sed \'s/)$//\'"
         LatestVersion = subprocess.check_output(cmd, shell = True).decode('UTF-8')
 
         UpdateAvailable = "No"
-        if Version != LatestVersion:
+        if LatestVersion.startswith('v') and Version != LatestVersion:
           UpdateAvailable = "Yes"
 
         # Display Pi-hole stats
