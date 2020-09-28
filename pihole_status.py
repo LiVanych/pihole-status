@@ -36,6 +36,7 @@ import math
 import json
 import requests
 import subprocess
+from datetime import datetime
 
 # Graphics libraries
 from PIL import Image
@@ -50,7 +51,7 @@ import busio
 import adafruit_ssd1306
 
 # Screen refresh frequency:
-refresh = 10
+refresh = 8 
 
 # Create the I2C interface.
 i2c = busio.I2C(SCL, SDA)
@@ -121,7 +122,7 @@ while True:
         r = requests.get("http://localhost/admin/api.php?summary")
 
         # We will retrieve both the current version and the latest version
-        # to see if an upidate is available.
+        # to see if an update is available.
 
         # Note: 'pihole' -v -p -[c|l] to get the current and latest version of the pihole core
         # unfortunately has a number of different outputs depending on what information is available
@@ -132,10 +133,12 @@ while True:
         #   Current Pi-hole version is v5.1.2.
         #   Pi-hole version is v5.1.2 (Latest: v5.1.2)
 
-        cmd = "pihole -v -p -c | awk \'{for (i=NF;i>0;i--){printf $i\" \"}}\' | cut -d\' \' -f1 | sed \'s/\.$//\' | sed \'s/)$//\'"
-        Version = subprocess.check_output(cmd, shell = True).decode('UTF-8')
 
-        cmd = "pihole -v -p -l | awk \'{for (i=NF;i>0;i--){printf $i\" \"}}\' | cut -d\' \' -f1 | sed \'s/\.$//\' | sed \'s/)$//\'"
+        cmd = "/usr/local/bin/pihole -v -p -c | awk \'{for (i=NF;i>0;i--){printf $i\" \"}}\' | cut -d\' \' -f1 | sed \'s/\.$//\' | sed \'s/)$//\'"
+        Version = subprocess.check_output(cmd, shell = True).decode('UTF-8')
+        #now = datetime.now()
+
+        cmd = "/usr/local/bin/pihole -v -p -l | awk \'{for (i=NF;i>0;i--){printf $i\" \"}}\' | cut -d\' \' -f1 | sed \'s/\.$//\' | sed \'s/)$//\'"
         LatestVersion = subprocess.check_output(cmd, shell = True).decode('UTF-8')
 
         UpdateAvailable = "No"
