@@ -1,6 +1,6 @@
 # Pihole-status
 
-Pihole-status is an add-on module for your Pi-hole that displays realtime status information on a tiny OLED screen with no external monitor needed.
+Pihole-status is an add-on module for your Pi-hole that displays realtime status information on a tiny OLED screen with no external monitor needed. Note that if you have a small LCD screen attached, the Pi-hole software itself already includes a [great solution](https://docs.pi-hole.net/core/pihole-command/#chronometer) to displaying realtime status.
 
 The information is divided into two alternating screens:
 
@@ -50,6 +50,11 @@ sudo bash setup.sh
 rm setup.sh
 ```
 ---
+
+## Hardware
+Virtually any modern SSD1306-based 128x64 OLED screen will work. Some manufacturers make raspi-focused hardware that requires no additional hardware, but with a little work almost all of them can be connected. If possible try for one that presses directly onto the pin headers and looks approximately like this:
+
+
 
 ## License
 
