@@ -16,15 +16,19 @@
 # - System uptime
 #
 # Pi-hole information:
+# - Pi-hole version
 # - Blocked percentage
 # - Blocked count
 # - Total number of queries
 # - Domains blocked
+# - Pi-hole update available
 #
 # Based on the Adafruit 1306 example at:
 #   https://learn.adafruit.com/adafruit-pioled-128x32-mini-oled-for-raspberry-pi/usage 
 #
-
+# Pi-hole stats extraction based Matt Hawkins' implementation at: 
+#   https://bitbucket.org/MattHawkinsUK/rpispy-misc/src/master/pihole/
+#
 
 # Standard libraries
 import time
