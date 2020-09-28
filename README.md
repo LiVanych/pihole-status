@@ -54,7 +54,7 @@ rm setup.sh
 ## Hardware
 Virtually any modern SSD1306-based 128x64 OLED screen will work. Some manufacturers make raspi-focused hardware that requires no additional hardware, but with a little work almost all of them can be connected. If possible try for one that presses directly onto the pin headers and looks approximately like this:
 
-
+<img src="https://github.com/bkolin/pihole-status/blob/master/pi-oled.png?raw=true" alt="Pi-hole OLED screen">
 
 ## License
 
