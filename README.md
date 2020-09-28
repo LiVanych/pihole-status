@@ -1,4 +1,4 @@
-# pihole-status
+# Pihole-status
 
 Pihole-status is an add-on module for your Pi-hole that displays realtime status information on a tiny OLED screen with no external monitor needed.
 
@@ -13,10 +13,12 @@ The information is divided into two alternating screens:
 - **System uptime**: Useful to help indicate long-term stability.
 
 ### Pi-hole information:
-- Blocked percentage
-- Blocked count
-- Total number of queries
-- Domains blocked
+- **Pi-hole version**: The core pi-hole software version
+- **Blocked percentage**: The percentage of ads blocked today
+- **Blocked count**: The total count of ads blocked today
+- **Total number of queries**: The number of DNS queries fielded today
+- **Domains blocked**: The number of domains blocked, summed across loaded blocklists
+- **Pi-hole update available**: If the available version of the core pi-hole version does not match the current version, this field displays "Yes", otherwise it displays "No"
 
 ---
 
@@ -28,7 +30,7 @@ Like the Pi-hole install process itself, one-step installation of pihole-status 
 
 ### Alternative Install Methods
 
-Alternative methods are available which allow for review and modification of the code before installation. Note that both methods will ultimately download the latest pihole-status script from the repo, so if you make local changes to pihole-status.py you should not re-run the setup script.
+Alternative methods are available which allow for review and modification of the code before installation. Note that both methods will ultimately download the latest pihole-status.py script from the repo, so if you make local changes to pihole-status.py you should not re-run the setup script.
 
 ### Method 1: Clone the git repository and run
 
@@ -43,8 +45,9 @@ sudo bash setup.sh
 ### Method 2: Manually download the installer and run
 
 ```bash
-wget -O pihole-status-setup.sh https://raw.githubusercontent.com/bkolin/pihole-status/master/setup.sh
-sudo bash pihole-status-setup.sh
+wget -O setup.sh https://raw.githubusercontent.com/bkolin/pihole-status/master/setup.sh
+sudo bash setup.sh
+rm setup.sh
 ```
 ---
 
