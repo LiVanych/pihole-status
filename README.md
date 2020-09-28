@@ -22,41 +22,30 @@ The information is divided into two alternating screens:
 
 ## Installation
 
-In the spirit of the Pi-hole itself, one-step installation is available to get started quickly using the following command:
+Like the Pi-hole install process itself, one-step installation of pihole-status is available to get started quickly using the following command:
 
 ### `curl -sSL https://raw.githubusercontent.com/bkolin/pihole-status/master/setup.sh | bash`
-- Do this
 
 ### Alternative Install Methods
 
-Also in the spirit of the Pi-hole installation, there are alternative installation methods available which allow for review and modification of the code before installation:
+Alternative methods are available which allow for review and modification of the code before installation. Note that both methods will ultimately download the latest pihole-status script from the repo, so if you make local changes to pihole-status.py you should not re-run the setup script.
 
 ### Method 1: Clone the git repository and run
 
 ```bash
+cd
+mkdir pihole-status-install
 git clone https://github.com/bkolin/pihole-status pihole-status-install
-cd "pihole-status-install"
+cd pihole-status-install
 sudo bash setup.sh
 ```
 
 ### Method 2: Manually download the installer and run
 
 ```bash
-wget -O basic-install.sh https://install.pi-hole.net
-sudo bash basic-install.sh
+wget -O pihole-status-setup.sh https://raw.githubusercontent.com/bkolin/pihole-status/master/setup.sh
+sudo bash pihole-status-setup.sh
 ```
-
-```shell
-$ somecommand
-$ some other command
-```
-
-### Step 1
-- Do this
-
-### Step 2
-- Then this
-
 ---
 
 ## License
