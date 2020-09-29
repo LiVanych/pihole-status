@@ -39,14 +39,14 @@ cd
 mkdir pihole-status-install
 git clone https://github.com/bkolin/pihole-status pihole-status-install
 cd pihole-status-install
-sudo bash setup.sh
+sudo bash -c setup.sh
 ```
 
 ### Method 2: Manually download the installer and run
 
 ```bash
 wget -O setup.sh https://raw.githubusercontent.com/bkolin/pihole-status/master/setup.sh
-sudo bash setup.sh
+sudo bash -c setup.sh
 rm setup.sh
 ```
 ---
