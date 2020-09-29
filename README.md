@@ -20,6 +20,12 @@ The information is divided into two alternating screens:
 - **Domains blocked**: The number of domains blocked, summed across loaded blocklists
 - **Pi-hole update available**: If the available version of the core pi-hole version does not match the current version, this field displays "Yes", otherwise it displays "No"
 
+<div>
+  <img src="https://github.com/bkolin/pihole-status/blob/master/startup.jpg?raw=true" alt="Pi-hole Status startup" width="504" height="378" />
+  <img src="https://github.com/bkolin/pihole-status/blob/master/pihole-info.jpg?raw=true" alt="Pi-hole Status pi-hole info" width="504" height="378" />
+  <img src="https://github.com/bkolin/pihole-status/blob/master/system-info.jpg?raw=true" alt="Pi-hole Status system info" width="504" height="378" />
+</div>
+
 ---
 
 ## Installation
@@ -54,7 +60,7 @@ rm setup.sh
 ## Hardware
 Virtually any modern SSD1306-based 128x64 OLED screen will work. Some manufacturers make raspi-focused hardware that requires no additional hardware, but with a little work almost all of them can be connected. If possible try for one that presses directly onto the pin headers and looks approximately like this:
 
-<img src="https://github.com/bkolin/pihole-status/blob/master/pi-oled.png?raw=true" alt="Pi-hole OLED screen">
+<img src="https://github.com/bkolin/pihole-status/blob/master/pi-oled.png?raw=true" alt="Pi-hole OLED screen" />
 
 ## License
 
